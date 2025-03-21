@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrossCraft - Servidor Minecraft</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Nieve cayendo -->
+    <div id="snow"></div>
+
+    <!-- Barra superior -->
+    <header>
+        <h1>CrossCraft</h1>
+        <div class="login-container">
+            <button id="login-discord" onclick="loginDiscord()">Iniciar sesión en Discord</button>
+            <img id="user-photo" src="" alt="Foto de usuario" style="display:none;">
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main>
+        <section class="buttons">
+            <button id="java-button" onclick="showJavaDetails()">Java</button>
+            <button id="bedrock-button" onclick="showBedrockDetails()">Bedrock</button>
+        </section>
+
+        <section class="server-details">
+            <h2>Datos del Servidor</h2>
+            <div class="server-info" id="java-info">
+                <button onclick="copyToClipboard('Java Server IP: 123.45.67.89 - Puerto: 25565')">Copiar Java</button>
+            </div>
+            <div class="server-info" id="bedrock-info">
+                <button onclick="copyToClipboard('Bedrock Server IP: 123.45.67.89 - Puerto: 19132')">Copiar Bedrock</button>
+            </div>
+        </section>
+
+        <section class="description">
+            <h2>Sobre CrossCraft</h2>
+            <p>CrossCraft es un servidor Minecraft en modo Survival donde podrás explorar, construir y sobrevivir en un mundo desafiante. ¡Únete a nosotros y forma parte de esta gran comunidad!</p>
+        </section>
+
+        <section class="support">
+            <h2>Soporte</h2>
+            <button onclick="joinSupportServer()">Unirse al servidor de soporte</button>
+        </section>
+    </main>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
