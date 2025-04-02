@@ -1,4 +1,4 @@
-/* Estilo general */
+
 body {
     background-color: #000;
     color: #fff;
@@ -9,7 +9,7 @@ body {
     position: relative;
 }
 
-/* Animación de nieve */
+
 #snow {
     position: absolute;
     top: 0;
@@ -37,7 +37,7 @@ body {
     }
 }
 
-/* Barra superior */
+
 header {
     display: flex;
     justify-content: space-between;
@@ -81,7 +81,7 @@ button:hover {
     height: 40px;
 }
 
-/* Sección de botones */
+
 .buttons {
     display: flex;
     justify-content: center;
@@ -93,7 +93,6 @@ button:hover {
     font-size: 20px;
 }
 
-/* Detalles del servidor */
 .server-details {
     margin: 50px 20px;
     background-color: #333;
@@ -114,7 +113,7 @@ button:hover {
     margin-top: 10px;
 }
 
-/* Descripción */
+
 .description {
     text-align: center;
     padding: 20px;
@@ -123,7 +122,7 @@ button:hover {
     margin: 20px;
 }
 
-/* Soporte */
+
 .support {
     text-align: center;
     margin-top: 50px;
@@ -133,7 +132,7 @@ button:hover {
     margin-top: 20px;
 }
 
-/* Estilos responsivos */
+
 @media (max-width: 768px) {
     header h1 {
         font-size: 28px;
