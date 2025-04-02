@@ -7,3 +7,4 @@ Características
 	•	Soporte Integrado: Botón interactivo para unirse al servidor de soporte y resolver dudas.
 	•	Despliegue Sencillo: Desplegado en plataformas como Vercel para garantizar un rendimiento óptimo.
 	•	Código Abierto: Contribuye y mejora el proyecto; se agradecen los pull requests y comentarios.
+
