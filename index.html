@@ -3,52 +3,722 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrossCraft - Servidor Minecraft</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>CrossCraft - Servidor Crossplay Minecraft</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables CSS */
+        :root {
+            --primary-color: #6a0dad;
+            --secondary-color: #1a1a2e;
+            --accent-color: #00a8ff;
+            --text-color: #ffffff;
+            --dark-bg: #0d0d15;
+            --card-bg: rgba(26, 26, 46, 0.8);
+            --transition: all 0.3s ease;
+        }
+
+        /* Reset y estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 20% 30%, rgba(106, 13, 173, 0.15) 0%, transparent 30%), 
+                              radial-gradient(circle at 80% 70%, rgba(0, 168, 255, 0.15) 0%, transparent 30%);
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            padding: 2rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-color);
+            box-shadow: 0 0 20px rgba(0, 168, 255, 0.5);
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: rotate(10deg);
+            box-shadow: 0 0 30px rgba(0, 168, 255, 0.8);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #ffffff, #b388ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://cdn.discordapp.com/attachments/1352103629330448397/1366653388091166801/IMG_0610.png?ex=68126366&is=681111e6&hm=b7686c560af4cf3ee17355a13ca28c29f5fcff3669ed3a93be27543cc2f7dcd5&') center/cover no-repeat;
+            opacity: 0.2;
+            z-index: -1;
+        }
+
+        .hero-content {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 800px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease-out 0.2s both;
+        }
+
+        .hero h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* IP Buttons */
+        .ip-section {
+            padding: 3rem 1rem;
+            text-align: center;
+            background: linear-gradient(to bottom, var(--secondary-color) 0%, var(--dark-bg) 100%);
+        }
+
+        .ip-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .ip-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            border-radius: 3px;
+        }
+
+        .ip-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .ip-button {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #4b0082 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ip-button.java {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+
+        .ip-button.bedrock {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        }
+
+        .ip-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .ip-button:active {
+            transform: translateY(0);
+        }
+
+        .ip-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .ip-button:hover::before {
+            left: 100%;
+        }
+
+        .ip-button i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        .ip-button .ip-text {
+            margin-right: 10px;
+        }
+
+        .ip-button .copy-icon {
+            transition: var(--transition);
+        }
+
+        .ip-button:hover .copy-icon {
+            transform: scale(1.2);
+        }
+
+        .ip-button.copied {
+            animation: pulse 0.5s;
+        }
+
+        .ip-button.copied::after {
+            content: 'Copiado!';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            opacity: 0;
+            animation: fadeInOut 2s;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 4rem 1rem;
+            position: relative;
+            background: url('https://cdn.discordapp.com/attachments/1352103629330448397/1366653404755267646/IMG_0611.png?ex=6812636a&is=681111ea&hm=ca47fc026357e4548e9e511db0662bafd0133d17eb9d5326b433c1d5529508e1&') center/cover no-repeat;
+        }
+
+        .features::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(13, 13, 21, 0.85);
+            z-index: 0;
+        }
+
+        .features-container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--accent-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            border-radius: 3px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-out;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(106, 13, 173, 0.5);
+        }
+
+        .feature-card:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .feature-card:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .feature-card:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .feature-card:nth-child(4) {
+            animation-delay: 0.8s;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+            text-align: center;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+            text-align: center;
+        }
+
+        .feature-desc {
+            font-size: 1rem;
+            opacity: 0.9;
+            text-align: center;
+        }
+
+        /* Discord Section */
+        .discord-section {
+            padding: 3rem 1rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        }
+
+        .discord-button {
+            display: inline-flex;
+            align-items: center;
+            background-color: #5865F2;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            margin-top: 1rem;
+        }
+
+        .discord-button:hover {
+            background-color: #4752c4;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .discord-button i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary-color);
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+
+        .credits {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .creator-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-color);
+            margin-bottom: 1rem;
+            box-shadow: 0 0 20px rgba(0, 168, 255, 0.5);
+            transition: var(--transition);
+        }
+
+        .creator-avatar:hover {
+            transform: rotate(10deg) scale(1.1);
+            box-shadow: 0 0 30px rgba(0, 168, 255, 0.8);
+        }
+
+        .creator-name {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+        }
+
+        .copyright {
+            margin-top: 2rem;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .hero {
+                height: auto;
+            }
+
+            .hero-content {
+                padding: 1.5rem;
+            }
+
+            .hero h2 {
+                font-size: 1.5rem;
+            }
+
+            .ip-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .ip-button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .logo {
+                width: 80px;
+                height: 80px;
+            }
+
+            .feature-card {
+                padding: 1.5rem;
+            }
+
+            .feature-icon {
+                font-size: 2.5rem;
+            }
+
+            .feature-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Efectos especiales */
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-2 {
+            animation: float 5s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+
+        .floating-3 {
+            animation: float 7s ease-in-out infinite;
+            animation-delay: 2s;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
 </head>
 <body>
-    
-    <div id="snow"></div>
-
-    
+    <!-- Header con logo y título -->
     <header>
-        <h1>CrossCraft!</h1>
-        <div class="login-container">
-            <button id="login-discord" onclick="loginDiscord()">Iniciar sesión en Discord</button>
-            <img id="user-photo" src="" alt="Foto de usuario" style="display:none;">
+        <div class="logo-container">
+            <img src="https://cdn.discordapp.com/attachments/1352103629330448397/1366840573981495296/Cartel_Puerta_Bienvenido_Bebe_Recien_Nacido_Clinica_Pinguino_Ilustracion_Minimalista_Verde_Logotipo.gif?ex=681268fb&is=6811177b&hm=f6b23f190f990b799f1780c682e98d549994497ba11461463627b06bda6543c9&" alt="CrossCraft Logo" class="logo floating">
+            <h1>CrossCraft</h1>
+            <p class="subtitle">El servidor Crossplay donde Java y Bedrock se unen en un solo mundo</p>
         </div>
     </header>
 
-    
-    <main>
-        <section class="buttons">
-            <button id="java-button" onclick="showJavaDetails()">Java</button>
-            <button id="bedrock-button" onclick="showBedrockDetails()">Bedrock</button>
-        </section>
+    <!-- Sección Hero con descripción -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Bienvenido a CrossCraft</h2>
+            <p>Sumérgete en una experiencia única de Minecraft donde los jugadores de Java y Bedrock pueden explorar, construir y aventurarse juntos en un mismo universo. Nuestro servidor ofrece características innovadoras y un sistema anti-lag avanzado para garantizar la mejor experiencia de juego.</p>
+            <p>Con un equipo dedicado y una comunidad activa, CrossCraft es el lugar perfecto para vivir todas tus aventuras Minecraft sin límites entre plataformas.</p>
+        </div>
+    </section>
 
-        <section class="server-details">
-            <h2>Datos del Servidor</h2>
-            <div class="server-info" id="java-info">
-                <button onclick="copyToClipboard('Java and bedrock:38.97.61.76 - Puerto:19241')">Copiar Java</button>
+    <!-- Sección de IPs -->
+    <section class="ip-section">
+        <h2 class="ip-title">Conéctate Ahora</h2>
+        <div class="ip-buttons">
+            <button class="ip-button bedrock" data-ip="na12.holy.gg">
+                <i class="fas fa-cube"></i>
+                <span class="ip-text">Bedrock: na12.holy.gg:19241</span>
+                <i class="fas fa-copy copy-icon"></i>
+            </button>
+            <button class="ip-button java" data-ip="38.97.61.76:19241">
+                <i class="fab fa-java"></i>
+                <span class="ip-text">Java: 38.97.61.76:19241</span>
+                <i class="fas fa-copy copy-icon"></i>
+            </button>
+        </div>
+        <p>¡Haz clic en el botón correspondiente a tu versión para copiar la IP automáticamente!</p>
+    </section>
+
+    <!-- Sección de características -->
+    <section class="features">
+        <div class="features-container">
+            <h2 class="section-title">Nuestras Características</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <h3 class="feature-title">Crossplay Total</h3>
+                    <p class="feature-desc">CrossCraft es un servidor crossplay donde ambas plataformas como Java y Bedrock pueden jugar en un solo mundo sin restricciones. Rompemos las barreras entre plataformas para una experiencia verdaderamente unificada.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="feature-title">Sistema de Niveles</h3>
+                    <p class="feature-desc">Avanza en nuestro sistema de niveles único que recompensa tu dedicación. Gana experiencia al jugar, completar misiones y lograr objetivos. Desbloquea recompensas exclusivas y muestra tu progreso a otros jugadores.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chess-queen"></i>
+                    </div>
+                    <h3 class="feature-title">Cofre de la Muerte</h3>
+                    <p class="feature-desc">Nuestro sistema de cofre de la muerte protege tus objetos cuando mueres. Todos tus ítems se guardan en un cofre especial que solo tú puedes abrir, dándote la oportunidad de recuperarlos sin preocupaciones.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-dragon"></i>
+                    </div>
+                    <h3 class="feature-title">Mascotas Personalizadas</h3>
+                    <p class="feature-desc">Captura, entrena y haz crecer a tu propia mascota. Cada criatura tiene habilidades únicas que mejoran al subir de nivel. Forma un vínculo especial con tu compañero y desbloquea habilidades exclusivas.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">Sistema Anti-Lag</h3>
+                    <p class="feature-desc">Nuestra tecnología avanzada elimina automáticamente ítems tirados en menos de 5 minutos para mantener el servidor funcionando sin problemas. Disfruta de un rendimiento óptimo incluso con muchos jugadores.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3 class="feature-title">Niveles de Mods</h3>
+                    <p class="feature-desc">Nuestro sistema de niveles de mods te permite personalizar tu experiencia de juego. Desbloquea nuevas habilidades, objetos y características especiales a medida que avanzas en el servidor.</p>
+                </div>
             </div>
-            <div class="server-info" id="bedrock-info">
-                <button onclick="copyToClipboard('Bedrock Server IP: 38.97.61.76 - Puerto: 19241')">Copiar Bedrock</button>
-            </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="description">
-            <h2>Sobre CrossCraft</h2>
-            <p>CrossCraft es un servidor Minecraft en modo Survival donde podrás explorar, construir y sobrevivir en un mundo desafiante. ¡Únete a nosotros y forma parte de esta gran comunidad!</p>
-        </section>
+    <!-- Sección Discord -->
+    <section class="discord-section">
+        <h2>¡Únete a nuestra comunidad!</h2>
+        <p>Para soporte, actualizaciones y conocer a otros jugadores, únete a nuestro servidor de Discord.</p>
+        <a href="#" class="discord-button" id="discord-join">
+            <i class="fab fa-discord"></i> Unirse a Discord
+        </a>
+    </section>
 
-        <section class="support">
-            <h2>Soporte</h2>
-            <a href="https://discord.gg/zuHNT7vzTZ" target="_blank">
-  <button type="button">Unirse al servidor de soporte</button>
-</a>
-        </section>
-    </main>
+    <!-- Footer con créditos -->
+    <footer>
+        <div class="credits">
+            <img src="https://cdn.discordapp.com/attachments/1352103629330448397/1366841463832313916/IMG_0331.jpg?ex=681269cf&is=6811184f&hm=751e8ff0fd06e7bfb1f8bd176f0d6678dbfcfe0585668eb5ce5d948b9f2408e0&" alt="SoyMr" class="creator-avatar floating-2">
+            <h3 class="creator-name">SoyMr</h3>
+            <p>Creador y desarrollador de CrossCraft</p>
+            <p class="copyright">© 2025 CrossCraft. Todos los derechos reservados.</p>
+        </div>
+    </footer>
 
-    <script src="scripts.js"></script>
+    <script>
+        // Copiar IP al hacer clic en los botones
+        document.querySelectorAll('.ip-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const ip = this.getAttribute('data-ip');
+                navigator.clipboard.writeText(ip).then(() => {
+                    this.classList.add('copied');
+                    setTimeout(() => {
+                        this.classList.remove('copied');
+                    }, 2000);
+                });
+            });
+        });
+
+        // Efecto de partículas
+        document.addEventListener('DOMContentLoaded', () => {
+            const particlesContainer = document.createElement('div');
+            particlesContainer.style.position = 'fixed';
+            particlesContainer.style.top = '0';
+            particlesContainer.style.left = '0';
+            particlesContainer.style.width = '100%';
+            particlesContainer.style.height = '100%';
+            particlesContainer.style.pointerEvents = 'none';
+            particlesContainer.style.zIndex = '-1';
+            document.body.appendChild(particlesContainer);
+
+            function createParticle() {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Tamaño aleatorio entre 1px y 3px
+                const size = Math.random() * 2 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Posición aleatoria en la pantalla
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Opacidad aleatoria
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                
+                // Animación
+                const duration = Math.random() * 20 + 10;
+                particle.style.animation = `float ${duration}s linear infinite`;
+                
+                particlesContainer.appendChild(particle);
+                
+                // Eliminar partícula después de animarse
+                setTimeout(() => {
+                    particle.remove();
+                }, duration * 1000);
+            }
+            
+            // Crear partículas continuamente
+            setInterval(createParticle, 300);
+            
+            // Crear algunas partículas iniciales
+            for (let i = 0; i < 20; i++) {
+                createParticle();
+            }
+        });
+
+        // Enlace de Discord
+        document.getElementById('discord-join').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Enlace de Discord será agregado aquí');
+            // Reemplazar con: window.location.href = 'TU_ENLACE_DE_DISCORD';
+        });
+    </script>
 </body>
 </html>
